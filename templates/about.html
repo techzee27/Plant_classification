@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | PlantCare AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🍃</span>
+                PlantCare AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about" style="color: white;">About</a></li>
+                <li><a href="/upload">Upload</a></li>
+            </ul>
+            <a href="/upload" class="btn btn-primary">Try For Free</a>
+        </div>
+    </nav>
+
+    <!-- ABOUT HERO -->
+    <div class="page-header container" style="padding-bottom: 80px;">
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>&gt;</span> About
+        </div>
+        <h1 class="hero-title" style="font-size: 56px; margin-bottom: 24px;">Democratizing Expert<br><span
+                class="text-gradient">Agronomy</span> with AI</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; max-width: 600px;">
+            We're building the infrastructure to identify, track, and prevent crop diseases globally before they
+            compromise global food security.
+        </p>
+    </div>
+
+    <!-- MISSION SPLIT -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="hero-grid" style="align-items: start;">
+                <div style="font-size: 32px; font-weight: 600; line-height: 1.3;">
+                    "Crop diseases cost the global economy over $220 billion annually. We believe AI is the key to
+                    preventing this catastrophic loss."
+                </div>
+                <div>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 24px;">
+                        PlantCare AI started as a research project to see if modern convolutional neural networks could
+                        outperform traditional pathology tests in speed without sacrificing accuracy.
+                    </p>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 24px;">
+                        Today, our infrastructure processes thousands of images, providing farmers with instant,
+                        lab-grade diagnostic capabilities right from their smartphones. We leverage transfer learning to
+                        continuously adapt our models to new pathogens.
+                    </p>
+                    <div
+                        style="display: flex; gap: 40px; margin-top: 40px; border-top: 1px solid var(--color-border); padding-top: 32px;">
+                        <div>
+                            <div style="font-size: 36px; font-weight: 700; color: white;">95.6%</div>
+                            <div style="font-size: 13px; color: var(--color-text-muted);">Validation Accuracy</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 36px; font-weight: 700; color: white;">
+                                < 2s</div>
+                                    <div style="font-size: 13px; color: var(--color-text-muted);">Inference Time</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 36px; font-weight: 700; color: white;">0¢</div>
+                                <div style="font-size: 13px; color: var(--color-text-muted);">Cost per scan</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="section"
+        style="background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); position: relative; overflow: hidden;">
+        <!-- Glowing background elements -->
+        <div
+            style="position: absolute; top: 10%; left: 20%; width: 300px; height: 300px; background: var(--color-primary); filter: blur(150px); opacity: 0.15; border-radius: 50%; pointer-events: none;">
+        </div>
+        <div
+            style="position: absolute; bottom: 10%; right: 20%; width: 400px; height: 400px; background: #3b82f6; filter: blur(150px); opacity: 0.1; border-radius: 50%; pointer-events: none;">
+        </div>
+
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="section-header">
+                <div class="badge-tag" style="margin-bottom: 16px;">Core Infrastructure</div>
+                <h2 class="section-title">MobileNetV2 Architecture</h2>
+                <p class="section-subtitle">A highly optimized neural network designed for rapid mobile vision tasks.
+                </p>
+            </div>
+
+            <div class="arch-diagram">
+                <div class="node-input glass-panel glow-effect">
+                    <div class="node-icon-wrapper"
+                        style="background: rgba(22, 163, 74, 0.15); color: var(--color-primary);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 16px; margin-bottom: 4px; color: white;">Input Image</h4>
+                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">224x224 RGB</p>
+                    </div>
+                </div>
+
+                <div class="connector-animated"></div>
+
+                <div class="node-block glass-panel glow-effect" style="border-left: 4px solid #3b82f6;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                        <h4 style="color: white; margin: 0; font-size: 16px;">Conv2D Layer</h4>
+                        <span
+                            style="font-size: 11px; background: rgba(59, 130, 246, 0.1); color: #60a5fa; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2);">Standard
+                            Conv</span>
+                    </div>
+                    <p style="margin: 0; color: var(--color-text-muted);">Initial feature extraction. Stride 2, 32
+                        filters.</p>
+                </div>
+
+                <div class="connector-animated"></div>
+
+                <div class="node-group glass-panel">
+                    <div class="node-group-label">Depthwise Separable Convolutions</div>
+
+                    <div class="node-block glass-panel glow-effect"
+                        style="border-left: 4px solid var(--color-primary);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                            <h4 style="color: white; margin: 0; font-size: 16px;">Inverted Residual Block × 1</h4>
+                            <span
+                                style="font-size: 11px; background: rgba(22, 163, 74, 0.1); color: var(--color-accent); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(22, 163, 74, 0.2);">Expansion:
+                                1</span>
+                        </div>
+                        <p style="margin: 0; color: var(--color-text-muted);">Filters: 16</p>
+                    </div>
+
+                    <div class="node-block glass-panel glow-effect"
+                        style="border-left: 4px solid var(--color-primary);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                            <h4 style="color: white; margin: 0; font-size: 16px;">Inverted Residual Block × 2</h4>
+                            <span
+                                style="font-size: 11px; background: rgba(22, 163, 74, 0.1); color: var(--color-accent); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(22, 163, 74, 0.2);">Expansion:
+                                6</span>
+                        </div>
+                        <p style="margin: 0; color: var(--color-text-muted);">Filters: 24</p>
+                    </div>
+
+                    <div class="node-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+
+                    <div
+                        style="text-align: center; color: var(--color-text-muted); font-size: 13px; margin-bottom: 12px; padding: 8px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+                        12 intermediate blocks build deep feature hierarchy
+                    </div>
+
+                    <div class="node-block glass-panel glow-effect"
+                        style="border-left: 4px solid var(--color-primary);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                            <h4 style="color: white; margin: 0; font-size: 16px;">Inverted Residual Block × 1</h4>
+                            <span
+                                style="font-size: 11px; background: rgba(22, 163, 74, 0.1); color: var(--color-accent); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(22, 163, 74, 0.2);">Expansion:
+                                6</span>
+                        </div>
+                        <p style="margin: 0; color: var(--color-text-muted);">Filters: 320</p>
+                    </div>
+                </div>
+
+                <div class="connector-animated"></div>
+
+                <div class="node-block glass-panel glow-effect" style="border-left: 4px solid #a855f7;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                        <h4 style="color: white; margin: 0; font-size: 16px;">Global Average Pooling</h4>
+                        <span
+                            style="font-size: 11px; background: rgba(168, 85, 247, 0.1); color: #c084fc; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.2);">Pooling</span>
+                    </div>
+                    <p style="margin: 0; color: var(--color-text-muted);">Dimensionality reduction from 7x7x1280 to
+                        1x1x1280</p>
+                </div>
+
+                <div class="connector-animated"></div>
+
+                <div class="node-output glass-panel glow-effect">
+                    <div class="node-icon-wrapper" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 16px; margin-bottom: 4px; color: white;">Dense Layer (Softmax)</h4>
+                        <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0;">Probability
+                            distribution across 38 disease classes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DATA PIPELINE -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Trained on <span class="text-gradient">Real Data</span></h2>
+            </div>
+
+            <div class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+                <div class="stat-card">
+                    <div class="counter" data-target="87867">0</div>
+                    <p>Images in Dataset</p>
+                </div>
+                <div class="stat-card">
+                    <div class="counter" data-target="14">0</div>
+                    <p>Plant Species</p>
+                </div>
+                <div class="stat-card">
+                    <div class="counter" data-target="38">0</div>
+                    <p>Disease Classes</p>
+                </div>
+                <div class="stat-card">
+                    <div class="counter" data-target="4500">0</div>
+                    <p>Augmentations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                &copy; <span id="year"></span> PlantCare AI. All rights reserved. Built with TensorFlow & Flask.
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .arch-diagram {
+            max-width: 650px;
+            margin: 0 auto;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .node-input,
+        .node-output {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 24px !important;
+            text-align: left !important;
+        }
+
+        .node-output {
+            border-color: rgba(239, 68, 68, 0.3) !important;
+            background: rgba(239, 68, 68, 0.05) !important;
+        }
+
+        .node-icon-wrapper {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) inset;
+        }
+
+        .node-block {
+            padding: 20px 24px !important;
+            margin: 0 !important;
+            transition: all 0.3s ease;
+        }
+
+        .node-group {
+            padding: 32px 24px 24px 24px !important;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 0 !important;
+        }
+
+        .node-group-label {
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--color-surface);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .connector-animated {
+            width: 2px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .connector-animated::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -3px;
+            width: 8px;
+            height: 20px;
+            background: #4ade80;
+            box-shadow: 0 0 15px 4px rgba(74, 222, 128, 0.8);
+            border-radius: 10px;
+            animation: flowDown 3s infinite linear;
+        }
+
+        /* Stagger the glowing data packets down the connections */
+        .arch-diagram>.connector-animated:nth-of-type(1)::before {
+            animation-delay: 0s;
+        }
+
+        .arch-diagram>.connector-animated:nth-of-type(2)::before {
+            animation-delay: 0.5s;
+        }
+
+        .arch-diagram>.connector-animated:nth-of-type(3)::before {
+            animation-delay: 2.0s;
+        }
+
+        .arch-diagram>.connector-animated:nth-of-type(4)::before {
+            animation-delay: 2.5s;
+        }
+
+        @keyframes flowDown {
+            0% {
+                top: -20px;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 48px;
+                opacity: 0;
+            }
+        }
+
+        .connector-animated::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: -4px;
+            border-width: 5px 5px 0;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.3) transparent transparent transparent;
+        }
+
+        /* Sequential glowing for the architecture nodes */
+        .arch-diagram>.glass-panel {
+            animation: pulseBlock 3s infinite;
+        }
+
+        .arch-diagram>.glass-panel:nth-child(1) {
+            animation-delay: -0.5s;
+        }
+
+        /* Input Node */
+        .arch-diagram>.glass-panel:nth-child(3) {
+            animation-delay: 0.0s;
+        }
+
+        /* Conv2D Node */
+        .arch-diagram>.glass-panel:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        /* Middle Group */
+        .arch-diagram>.glass-panel:nth-child(7) {
+            animation-delay: 2.0s;
+        }
+
+        /* Avg Pooling */
+        .arch-diagram>.glass-panel:nth-child(9) {
+            animation-delay: 2.5s;
+        }
+
+        /* Output Node */
+
+        @keyframes pulseBlock {
+
+            0%,
+            50%,
+            100% {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border-color: rgba(255, 255, 255, 0.05);
+            }
+
+            10% {
+                box-shadow: 0 0 25px rgba(74, 222, 128, 0.25);
+                border-color: rgba(74, 222, 128, 0.5);
+                transform: translateY(-2px);
+            }
+
+            30% {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border-color: rgba(255, 255, 255, 0.05);
+                transform: translateY(0);
+            }
+        }
+
+        .node-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 0;
+        }
+
+        .node-dots span {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: pulseDot 3s infinite;
+        }
+
+        .node-dots span:nth-child(1) {
+            animation-delay: 1.0s;
+        }
+
+        .node-dots span:nth-child(2) {
+            animation-delay: 1.2s;
+        }
+
+        .node-dots span:nth-child(3) {
+            animation-delay: 1.4s;
+        }
+
+        @keyframes pulseDot {
+
+            0%,
+            100% {
+                background: rgba(255, 255, 255, 0.2);
+                transform: scale(1);
+                box-shadow: none;
+            }
+
+            10% {
+                background: #4ade80;
+                box-shadow: 0 0 10px #4ade80;
+                transform: scale(1.5);
+            }
+
+            30% {
+                background: rgba(255, 255, 255, 0.2);
+                transform: scale(1);
+                box-shadow: none;
+            }
+        }
+
+        .stat-card {
+            background: var(--color-surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        .stat-card .counter {
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .stat-card p {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // Animated Counters
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // The lower the slower
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText.replace(/,/g, '');
+
+                    // Increase step
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc).toLocaleString();
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target.toLocaleString();
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        // Trigger animation when scrolled into view
+        const counterObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                animateCounters();
+                counterObserver.disconnect();
+            }
+        });
+
+        if (counters.length > 0) {
+            counterObserver.observe(counters[0]);
+        }
+    </script>
+
+    <!-- FLOATING CHATBOT SECTION -->
+    <div class="floating-chatbot-container">
+        <div class="floating-chat-window" id="fcWindow">
+            <div class="floating-chat-header">
+                <h3 class="floating-chat-title">
+                    <span style="font-size: 20px;">🌿</span> PlantCare Assistant
+                </h3>
+                <button class="floating-chat-close" id="fcCloseBtn">×</button>
+            </div>
+
+            <div class="floating-chat-messages" id="fcMessages">
+                <div class="fc-message fc-bot" id="fc-lang-selection">
+                    <div class="fc-avatar">🌿</div>
+                    <div class="fc-bubble fc-bubble-bot" style="font-size: 13px;">
+                        <div style="margin-bottom: 8px;">Please select your preferred language<br>कृपया अपनी भाषा
+                            चुनें<br>దయచేసి మీ భాషను ఎంచుకోండి</div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="btn btn-primary"
+                                style="padding: 4px 10px; font-size: 11px; min-width: auto; height: auto;"
+                                onclick="setFcLanguage('English')">English</button>
+                            <button class="btn btn-primary"
+                                style="padding: 4px 10px; font-size: 11px; min-width: auto; height: auto;"
+                                onclick="setFcLanguage('Hindi')">हिंदी</button>
+                            <button class="btn btn-primary"
+                                style="padding: 4px 10px; font-size: 11px; min-width: auto; height: auto;"
+                                onclick="setFcLanguage('Telugu')">తెలుగు</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="floating-chat-input-area">
+                <div class="fc-input-wrapper">
+                    <input type="text" id="fcInput" placeholder="Ask a question...">
+                    <button class="fc-send-btn" id="fcSendBtn">➤</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="floating-chat-toggle" id="fcToggleBtn">
+            💬
+        </div>
+    </div>
+
+    <!-- FLOATING CHATBOT JS -->
+    <script>
+        const fcToggleBtn = document.getElementById('fcToggleBtn');
+        const fcCloseBtn = document.getElementById('fcCloseBtn');
+        const fcWindow = document.getElementById('fcWindow');
+        const fcInput = document.getElementById('fcInput');
+        const fcSendBtn = document.getElementById('fcSendBtn');
+        const fcMessages = document.getElementById('fcMessages');
+
+        // Language state
+        let fcLanguage = 'English';
+        fcInput.disabled = true;
+        fcSendBtn.disabled = true;
+
+        function setFcLanguage(lang) {
+            fcLanguage = lang;
+            document.getElementById('fc-lang-selection').style.display = 'none';
+            fcInput.disabled = false;
+            fcSendBtn.disabled = false;
+
+            let welcomeMsg = "";
+            if (lang === 'Hindi') {
+                fcInput.placeholder = "मुझसे कुछ भी पूछें...";
+                welcomeMsg = "नमस्ते! 👋 मैं PlantCare AI सहायक हूँ। मैं आपको यह समझने में मदद कर सकता हूँ कि हमारी रोग पहचान कैसे काम करती है, आपको वेबसाइट सुविधाओं के बारे में मार्गदर्शन कर सकता हूँ, या सामान्य पौधे विकृति विज्ञान के सवालों के जवाब दे सकता हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?";
+            } else if (lang === 'Telugu') {
+                fcInput.placeholder = "నన్ను ఏదైనా అడగండి...";
+                welcomeMsg = "నమస్కారం! 👋 నేను PlantCare AI అసిస్టెంట్‌ని. మా వ్యాధి గుర్తింపు ఎలా పనిచేస్తుందో అర్థం చేసుకోవడంలో నేను మీకు సహాయపడగలను, వెబ్‌సైట్ లక్షణాల ద్వారా మీకు మార్గనిర్దేశం చేయగలను లేదా సాధారణ మొక్కల పాథాలజీ ప్రశ్నలకు సమాధానం ఇవ్వగలను. ఈ రోజు నేను మీకు ఎలా సహాయం చేయగలను?";
+            } else {
+                fcInput.placeholder = "Ask a question...";
+                welcomeMsg = "Hi there! 👋 I'm the PlantCare AI Assistant. I can help you understand how our disease detection works, guide you through the website features, or answer general plant pathology questions. How can I help you today?";
+            }
+
+            addFcMessage('bot', welcomeMsg);
+        }
+
+        // Toggle chat window
+        fcToggleBtn.addEventListener('click', () => {
+            fcWindow.classList.add('active');
+            fcToggleBtn.style.transform = 'scale(0)';
+            setTimeout(() => { if (!fcInput.disabled) fcInput.focus(); }, 300);
+        });
+
+        fcCloseBtn.addEventListener('click', () => {
+            fcWindow.classList.remove('active');
+            fcToggleBtn.style.transform = 'scale(1)';
+        });
+
+        // Send message handlers
+        fcInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleFcSend();
+        });
+        fcSendBtn.addEventListener('click', handleFcSend);
+
+        async function handleFcSend() {
+            const text = fcInput.value.trim();
+            if (!text) return;
+
+            // Add user message
+            addFcMessage('user', text);
+
+            // Clear input
+            fcInput.value = '';
+            fcInput.disabled = true;
+            fcSendBtn.disabled = true;
+
+            // Show typing indicator
+            const typingId = showFcTyping();
+
+            try {
+                // We send a generic context since this is the homepage
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: text + " (Please act as a helpful website guide and general plant expert. I am on the homepage/about page.)",
+                        context: {
+                            plant_name: 'General Inquiry',
+                            disease_name: 'General Plant Health',
+                            confidence: 0,
+                            is_healthy: true
+                        },
+                        language: fcLanguage
+                    })
+                });
+
+                const data = await response.json();
+
+                // Remove typing indicator
+                const typingElem = document.getElementById(typingId);
+                if (typingElem) typingElem.remove();
+
+                if (data.success) {
+                    addFcMessage('bot', data.response);
+                } else {
+                    addFcMessage('bot', 'Sorry, I encountered an error. Please try again later.');
+                }
+            } catch (err) {
+                const typingElem = document.getElementById(typingId);
+                if (typingElem) typingElem.remove();
+                addFcMessage('bot', 'Network error. Please check your connection.');
+            } finally {
+                fcInput.disabled = false;
+                fcSendBtn.disabled = false;
+                fcInput.focus();
+            }
+        }
+
+        function formatFcBotMsg(text) {
+            let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = '<p style="margin-bottom:8px;">' + html.replace(/\n\n/g, '</p><p style="margin-bottom:8px;">').replace(/\n/g, '<br>') + '</p>';
+            return html;
+        }
+
+        function addFcMessage(sender, text) {
+            const div = document.createElement('div');
+            div.className = `fc-message fc-${sender}`;
+
+            if (sender === 'bot') {
+                div.innerHTML = `
+                    <div class="fc-avatar">🌿</div>
+                    <div class="fc-bubble fc-bubble-bot">${formatFcBotMsg(text)}</div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div class="fc-bubble fc-bubble-user">${text}</div>
+                    <div class="fc-avatar">👨‍🌾</div>
+                `;
+            }
+
+            fcMessages.appendChild(div);
+            fcMessages.scrollTop = fcMessages.scrollHeight;
+        }
+
+        function showFcTyping() {
+            const id = 'fc-typing-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'fc-message fc-bot';
+            div.innerHTML = `
+                <div class="fc-avatar">🌿</div>
+                <div class="fc-bubble fc-bubble-bot">
+                    <div class="typing-indicator" style="padding: 0;">
+                        <div class="typing-dot" style="background: white;"></div>
+                        <div class="typing-dot" style="background: white;"></div>
+                        <div class="typing-dot" style="background: white;"></div>
+                    </div>
+                </div>
+            `;
+            fcMessages.appendChild(div);
+            fcMessages.scrollTop = fcMessages.scrollHeight;
+            return id;
+        }
+    </script>
+</body>
+
+</html>

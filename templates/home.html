@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantCare AI | Premium Plant Disease Detection</title>
+    <!-- Use the new single style file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🍃</span>
+                PlantCare AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="/upload">Upload</a></li>
+            </ul>
+            <a href="/upload" class="btn btn-primary">Try For Free</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="badge-tag">
+                    🧬 Powered by MobileNetV2 AI
+                </div>
+                <h1 class="hero-title">
+                    Detect Plant Diseases<br>
+                    Before They<br>
+                    <span class="text-gradient">Spread.</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Upload a single leaf photo. Our AI identifies 38+ diseases across 14 plant species in under 2
+                    seconds with 95%+ accuracy.
+                </p>
+                <div class="hero-cta">
+                    <a href="/upload" class="btn btn-primary">Analyze Your Plant &rarr;</a>
+                    <a href="#" id="watchDemoBtn" class="btn btn-ghost" onclick="openDemoModal(event)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        Watch Demo
+                    </a>
+                </div>
+                <div class="hero-social-proof">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    Trusted by 10,000+ farmers • 87K+ images trained • 95.67% accuracy
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="mockup-container">
+                    <div class="mockup-glow"></div>
+
+                    <div class="floating-badge badge-1">🛡️ 38 diseases</div>
+                    <div class="floating-badge badge-2">🌱 14 plants</div>
+                    <div class="floating-badge badge-3">⚡ 2 sec</div>
+
+                    <div class="mockup-card">
+                        <div class="mockup-img-placeholder"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS TICKER BAR -->
+    <div class="stats-bar">
+        <div class="ticker-track">
+            <div class="stat-item">
+                <div class="stat-dot"></div> 87,867 Images Trained
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> 38 Disease Classes
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> 95.67% Accuracy
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> 14 Plant Species
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> &lt; 2 Second Detection
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> Free to Use
+            </div>
+        </div>
+        <!-- Duplicated track for seamless infinite scroll -->
+        <div class="ticker-track">
+            <div class="stat-item">
+                <div class="stat-dot"></div> 87,867 Images Trained
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> 38 Disease Classes
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> 95.67% Accuracy
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> 14 Plant Species
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> &lt; 2 Second Detection
+            </div>
+            <div class="stat-item">
+                <div class="stat-dot"></div> Free to Use
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES SECTION -->
+    <!-- FEATURES SECTION (Full Viewport Scroll) -->
+    <div id="features" class="features-container">
+
+        <div class="feature-panel">
+            <div class="feature-panel-bg bg-instant"></div>
+            <div class="feature-content">
+                <div class="feature-icon-wrapper">
+                    <svg class="feature-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h3>Instant Analysis</h3>
+                <p>Get disease diagnosis in under 2 seconds. Our GPU-accelerated model processes your image instantly,
+                    leveraging advanced edge inference pathways to deliver real-time results directly to your device
+                    without long loading screens.</p>
+            </div>
+        </div>
+
+        <div class="feature-panel">
+            <div class="feature-panel-bg bg-classes"></div>
+            <div class="feature-content">
+                <div class="feature-icon-wrapper">
+                    <svg class="feature-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="6"></circle>
+                        <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                </div>
+                <h3>38 Disease Classes</h3>
+                <p>Covers the most common diseases affecting Apple, Tomato, Corn, Grape, Potato and 9 more plant
+                    species. Our robust dataset ensures that even subtle variations in symptoms are recognized
+                    accurately, protecting your entire crop portfolio.</p>
+            </div>
+        </div>
+
+        <div class="feature-panel">
+            <div class="feature-panel-bg bg-ai"></div>
+            <div class="feature-content">
+                <div class="feature-icon-wrapper">
+                    <svg class="feature-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                </div>
+                <h3>Transfer Learning AI</h3>
+                <p>Built on MobileNetV2 pre-trained on 1.2M ImageNet images, fine-tuned on 87,000+ plant disease
+                    photographs. This advanced neural architecture understands deep visual features, allowing it to
+                    adapt to complex agricultural scenarios with unprecedented precision.</p>
+            </div>
+        </div>
+
+        <div class="feature-panel">
+            <div class="feature-panel-bg bg-treatment"></div>
+            <div class="feature-content">
+                <div class="feature-icon-wrapper">
+                    <svg class="feature-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+                <h3>Treatment Recommendations</h3>
+                <p>Don't just detect - act. Every diagnosis comes with specific, actionable treatment steps to save your
+                    crop. From organic cultural practices to targeted chemical interventions, we provide the localized
+                    knowledge needed to halt infections in their tracks.</p>
+            </div>
+        </div>
+
+        <div class="feature-panel">
+            <div class="feature-panel-bg bg-confidence"></div>
+            <div class="feature-content">
+                <div class="feature-icon-wrapper">
+                    <svg class="feature-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                </div>
+                <h3>Confidence Scoring</h3>
+                <p>See exactly how confident the AI is with visual probability bars for the top 3 possible diagnoses.
+                    Transparency is key to building trust, so we provide the raw data probabilities, empowering
+                    agronomists to make informed decisions.</p>
+            </div>
+        </div>
+
+        <div class="feature-panel">
+            <div class="feature-panel-bg bg-works"></div>
+            <div class="feature-content">
+                <div class="feature-icon-wrapper">
+                    <svg class="feature-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                        </path>
+                    </svg>
+                </div>
+                <h3>Works Anywhere</h3>
+                <p>Web-based platform works on any device. No app download needed. Just a browser and a photo. Whether
+                    you're deep in the field with poor connection or at the greenhouse, our web design ensures you have
+                    access to expert pathology anywhere.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how-it-works"
+        style="background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Three steps to <span class="text-gradient">save your harvest</span></h2>
+            </div>
+
+            <div class="steps-container">
+                <div class="steps-line"></div>
+
+                <div class="step-item">
+                    <div class="step-glow"></div>
+                    <div class="step-icon">
+                        <svg class="step-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                            </path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3>Photograph the Leaf</h3>
+                    <p>Take a close-up photo of the affected plant leaf showing clear symptoms in good lighting.</p>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-glow"></div>
+                    <div class="step-icon">
+                        <svg class="step-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M5.4 5.4l2.8 2.8"></path>
+                            <path d="M18.6 18.6l-2.8-2.8"></path>
+                            <path d="M5.4 18.6l2.8-2.8"></path>
+                            <path d="M18.6 5.4l-2.8 2.8"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3>AI Analyzes the Image</h3>
+                    <p>MobileNetV2 processes the 224x224 pixel image through 154 deep neural network layers instantly.
+                    </p>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-glow"></div>
+                    <div class="step-icon">
+                        <svg class="step-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Get Instant Diagnosis</h3>
+                    <p>Receive extreme-accuracy disease name, confidence scoring, and actionable treatment
+                        recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUPPORTED PLANTS -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">14 Plant Species <span class="text-gradient">Supported</span></h2>
+                <p class="section-subtitle">Scroll to see all supported crops</p>
+            </div>
+
+            <div class="plants-scroll-wrapper">
+                <div class="plants-scroll">
+                    <!-- First Set of 14 -->
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_apple.png') }}" alt="Apple"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Apple</div>
+                            <div class="plant-count">4 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_tomato.png') }}" alt="Tomato"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Tomato</div>
+                            <div class="plant-count">9 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_corn.png') }}" alt="Corn" class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Corn</div>
+                            <div class="plant-count">4 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_grape.png') }}" alt="Grape"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Grape</div>
+                            <div class="plant-count">4 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_potato.png') }}" alt="Potato"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Potato</div>
+                            <div class="plant-count">3 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_peach.png') }}" alt="Peach"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Peach</div>
+                            <div class="plant-count">2 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_pepper.png') }}" alt="Pepper"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Pepper</div>
+                            <div class="plant-count">2 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_apple.png') }}" alt="Strawberry"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Strawberry</div>
+                            <div class="plant-count">2 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_grape.png') }}" alt="Blueberry"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Blueberry</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_peach.png') }}" alt="Orange"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Orange</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_potato.png') }}" alt="Soybean"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Soybean</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_tomato.png') }}" alt="Cherry"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Cherry</div>
+                            <div class="plant-count">2 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_pepper.png') }}" alt="Raspberry"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Raspberry</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_corn.png') }}" alt="Squash"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Squash</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicated Set for Infinite Slide -->
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_apple.png') }}" alt="Apple"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Apple</div>
+                            <div class="plant-count">4 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_tomato.png') }}" alt="Tomato"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Tomato</div>
+                            <div class="plant-count">9 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_corn.png') }}" alt="Corn" class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Corn</div>
+                            <div class="plant-count">4 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_grape.png') }}" alt="Grape"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Grape</div>
+                            <div class="plant-count">4 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_potato.png') }}" alt="Potato"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Potato</div>
+                            <div class="plant-count">3 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_peach.png') }}" alt="Peach"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Peach</div>
+                            <div class="plant-count">2 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_pepper.png') }}" alt="Pepper"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Pepper</div>
+                            <div class="plant-count">2 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_apple.png') }}" alt="Strawberry"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Strawberry</div>
+                            <div class="plant-count">2 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_grape.png') }}" alt="Blueberry"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Blueberry</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_peach.png') }}" alt="Orange"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Orange</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_potato.png') }}" alt="Soybean"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Soybean</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_tomato.png') }}" alt="Cherry"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Cherry</div>
+                            <div class="plant-count">2 diseases</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_pepper.png') }}" alt="Raspberry"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Raspberry</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{{ url_for('static', filename='crop_corn.png') }}" alt="Squash"
+                            class="plant-card-img">
+                        <div class="plant-card-overlay">
+                            <div class="plant-name">Squash</div>
+                            <div class="plant-count">1 disease</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section"
+        style="background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Trusted by <span style="color: var(--color-primary);">farmers worldwide</span>
+                </h2>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card glass-panel glow-effect">
+                    <div class="quote-mark">"</div>
+                    <div class="stars">★★★★★</div>
+                    <p class="quote-text">This tool saved my entire tomato harvest. Detected late blight 2 weeks before
+                        it spread.</p>
+                    <div class="author">
+                        <div class="author-avatar">R</div>
+                        <div class="author-info">
+                            <h4>Ravi Kumar</h4>
+                            <p>Tomato Farmer, Telangana</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card glass-panel glow-effect">
+                    <div class="quote-mark">"</div>
+                    <div class="stars">★★★★★</div>
+                    <p class="quote-text">As an agricultural student, PlantCare AI is my go-to learning tool for plant
+                        pathology.</p>
+                    <div class="author">
+                        <div class="author-avatar">P</div>
+                        <div class="author-info">
+                            <h4>Priya Sharma</h4>
+                            <p>Agriculture Student, Pune</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card glass-panel glow-effect">
+                    <div class="quote-mark">"</div>
+                    <div class="stars">★★★★★</div>
+                    <p class="quote-text">Incredibly accurate. Diagnosed Apple scab on my orchard correctly on first
+                        try.</p>
+                    <div class="author">
+                        <div class="author-avatar">J</div>
+                        <div class="author-info">
+                            <h4>John Mitchell</h4>
+                            <p>Apple Grower, California</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Frequently Asked <span class="text-gradient">Questions</span></h2>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How accurate is PlantCare AI?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        PlantCare AI achieves 95.67% validation accuracy on 17,572 test images across all 38 disease
+                        classes.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Which plants are supported?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        We support 14 plant species: Apple, Tomato, Corn, Grape, Potato, Peach, Pepper, Strawberry,
+                        Blueberry, Orange, Soybean, Cherry, Raspberry, Squash.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What image format should I upload?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        JPG, JPEG, or PNG format. Maximum file size 16MB. For best results use clear, well-lit close-up
+                        photos.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is PlantCare AI free to use?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Yes, completely free. No registration required.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How does the AI work?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        We use MobileNetV2, a convolutional neural network pre-trained on ImageNet, fine-tuned on
+                        87,000+ plant disease images using Transfer Learning.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="section final-cta">
+        <div class="container cta-content">
+            <h2 class="section-title" style="margin-bottom: 24px;">Start protecting your plants today</h2>
+            <p class="hero-subtitle">No signup required. Upload a photo and get instant results.</p>
+            <a href="/upload" class="btn btn-primary" style="font-size: 18px; padding: 16px 32px;">Analyze My Plant Now
+                &rarr;</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo footer-logo">
+                        <span class="logo-icon">🍃</span>
+                        PlantCare AI
+                    </div>
+                    <p class="footer-tagline">Empowering farmers and gardeners with deep learning technology to protect
+                        the world's crops.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">GH</a>
+                        <a href="#" class="social-icon">IN</a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <div class="footer-links">
+                        <a href="/">Home</a>
+                        <a href="/about">About</a>
+                        <a href="/upload">Upload</a>
+                        <a href="#how-it-works">How It Works</a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Technology Stack</h4>
+                    <div class="tech-badges">
+                        <span class="tech-badge">TensorFlow</span>
+                        <span class="tech-badge">Flask</span>
+                        <span class="tech-badge">MobileNetV2</span>
+                        <span class="tech-badge">Python</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> PlantCare AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- DEMO MODAL -->
+    <div id="demoModal" class="demo-modal">
+        <div class="demo-modal-content">
+            <span class="demo-modal-close" onclick="closeDemoModal()">&times;</span>
+            <video id="demoVideo" controls playsinline
+                style="width: 100%; border-radius: 12px; display: block; border: 1px solid var(--color-border); background-color: black;">
+                <source src="{{ url_for('static', filename='images/Screen Recording 2026-03-06 at 16.01.04.mov') }}"
+                    type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Set year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Demo Modal
+        function openDemoModal(e) {
+            e.preventDefault();
+            const modal = document.getElementById('demoModal');
+            const video = document.getElementById('demoVideo');
+            modal.style.display = "block";
+            // Start playing the video when opened
+            video.play().catch(function (error) {
+                console.log("Video play failed:", error);
+            });
+        }
+
+        function closeDemoModal() {
+            const modal = document.getElementById('demoModal');
+            const video = document.getElementById('demoVideo');
+            modal.style.display = "none";
+            video.pause();
+            video.currentTime = 0;
+        }
+
+        // Close modal if clicked outside of content
+        window.addEventListener('click', function (event) {
+            const modal = document.getElementById('demoModal');
+            const video = document.getElementById('demoVideo');
+            if (event.target == modal) {
+                modal.style.display = "none";
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // Intersection Observer for feature cards animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // We DO NOT unobserve here so it can trigger again on scroll back up, giving it a dynamic feel
+                } else {
+                    // Optional: remove class to replay animation when scrolling back up
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { threshold: 0.3 }); // Tripped when 30% of the panel is visible
+
+        document.querySelectorAll('.feature-panel').forEach(card => {
+            observer.observe(card);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const answer = item.querySelector('.faq-answer');
+
+                // Toggle active state
+                item.classList.toggle('active');
+
+                // Toggle display with simple js since height transition needs explicit heights usually
+                if (item.classList.contains('active')) {
+                    answer.style.display = 'block';
+                    button.querySelector('.faq-icon').textContent = '-';
+                } else {
+                    answer.style.display = 'none';
+                    button.querySelector('.faq-icon').textContent = '+';
+                }
+            });
+        });
+    </script>
+
+    <!-- FLOATING CHATBOT SECTION -->
+    <div class="floating-chatbot-container">
+        <div class="floating-chat-window" id="fcWindow">
+            <div class="floating-chat-header">
+                <h3 class="floating-chat-title">
+                    <span style="font-size: 20px;">🌿</span> PlantCare Assistant
+                </h3>
+                <button class="floating-chat-close" id="fcCloseBtn">×</button>
+            </div>
+
+            <div class="floating-chat-messages" id="fcMessages">
+                <div class="fc-message fc-bot" id="fc-lang-selection">
+                    <div class="fc-avatar">🌿</div>
+                    <div class="fc-bubble fc-bubble-bot" style="font-size: 13px;">
+                        <div style="margin-bottom: 8px;">Please select your preferred language<br>कृपया अपनी भाषा
+                            चुनें<br>దయచేసి మీ భాషను ఎంచుకోండి</div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="btn btn-primary"
+                                style="padding: 4px 10px; font-size: 11px; min-width: auto; height: auto;"
+                                onclick="setFcLanguage('English')">English</button>
+                            <button class="btn btn-primary"
+                                style="padding: 4px 10px; font-size: 11px; min-width: auto; height: auto;"
+                                onclick="setFcLanguage('Hindi')">हिंदी</button>
+                            <button class="btn btn-primary"
+                                style="padding: 4px 10px; font-size: 11px; min-width: auto; height: auto;"
+                                onclick="setFcLanguage('Telugu')">తెలుగు</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="floating-chat-input-area">
+                <div class="fc-input-wrapper">
+                    <input type="text" id="fcInput" placeholder="Ask a question...">
+                    <button class="fc-send-btn" id="fcSendBtn">➤</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="floating-chat-toggle" id="fcToggleBtn">
+            💬
+        </div>
+    </div>
+
+    <!-- FLOATING CHATBOT JS -->
+    <script>
+        const fcToggleBtn = document.getElementById('fcToggleBtn');
+        const fcCloseBtn = document.getElementById('fcCloseBtn');
+        const fcWindow = document.getElementById('fcWindow');
+        const fcInput = document.getElementById('fcInput');
+        const fcSendBtn = document.getElementById('fcSendBtn');
+        const fcMessages = document.getElementById('fcMessages');
+
+        // Language state
+        let fcLanguage = 'English';
+        fcInput.disabled = true;
+        fcSendBtn.disabled = true;
+
+        function setFcLanguage(lang) {
+            fcLanguage = lang;
+            document.getElementById('fc-lang-selection').style.display = 'none';
+            fcInput.disabled = false;
+            fcSendBtn.disabled = false;
+
+            let welcomeMsg = "";
+            if (lang === 'Hindi') {
+                fcInput.placeholder = "मुझसे कुछ भी पूछें...";
+                welcomeMsg = "नमस्ते! 👋 मैं PlantCare AI सहायक हूँ। मैं आपको यह समझने में मदद कर सकता हूँ कि हमारी रोग पहचान कैसे काम करती है, आपको वेबसाइट सुविधाओं के बारे में मार्गदर्शन कर सकता हूँ, या सामान्य पौधे विकृति विज्ञान के सवालों के जवाब दे सकता हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?";
+            } else if (lang === 'Telugu') {
+                fcInput.placeholder = "నన్ను ఏదైనా అడగండి...";
+                welcomeMsg = "నమస్కారం! 👋 నేను PlantCare AI అసిస్టెంట్‌ని. మా వ్యాధి గుర్తింపు ఎలా పనిచేస్తుందో అర్థం చేసుకోవడంలో నేను మీకు సహాయపడగలను, వెబ్‌సైట్ లక్షణాల ద్వారా మీకు మార్గనిర్దేశం చేయగలను లేదా సాధారణ మొక్కల పాథాలజీ ప్రశ్నలకు సమాధానం ఇవ్వగలను. ఈ రోజు నేను మీకు ఎలా సహాయం చేయగలను?";
+            } else {
+                fcInput.placeholder = "Ask a question...";
+                welcomeMsg = "Hi there! 👋 I'm the PlantCare AI Assistant. I can help you understand how our disease detection works, guide you through the website features, or answer general plant pathology questions. How can I help you today?";
+            }
+
+            addFcMessage('bot', welcomeMsg);
+        }
+
+        // Toggle chat window
+        fcToggleBtn.addEventListener('click', () => {
+            fcWindow.classList.add('active');
+            fcToggleBtn.style.transform = 'scale(0)';
+            setTimeout(() => { if (!fcInput.disabled) fcInput.focus(); }, 300);
+        });
+
+        fcCloseBtn.addEventListener('click', () => {
+            fcWindow.classList.remove('active');
+            fcToggleBtn.style.transform = 'scale(1)';
+        });
+
+        // Send message handlers
+        fcInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleFcSend();
+        });
+        fcSendBtn.addEventListener('click', handleFcSend);
+
+        async function handleFcSend() {
+            const text = fcInput.value.trim();
+            if (!text) return;
+
+            // Add user message
+            addFcMessage('user', text);
+
+            // Clear input
+            fcInput.value = '';
+            fcInput.disabled = true;
+            fcSendBtn.disabled = true;
+
+            // Show typing indicator
+            const typingId = showFcTyping();
+
+            try {
+                // We send a generic context since this is the homepage
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: text + " (Please act as a helpful website guide and general plant expert. I am on the homepage/about page.)",
+                        context: {
+                            plant_name: 'General Inquiry',
+                            disease_name: 'General Plant Health',
+                            confidence: 0,
+                            is_healthy: true
+                        },
+                        language: fcLanguage
+                    })
+                });
+
+                const data = await response.json();
+
+                // Remove typing indicator
+                const typingElem = document.getElementById(typingId);
+                if (typingElem) typingElem.remove();
+
+                if (data.success) {
+                    addFcMessage('bot', data.response);
+                } else {
+                    addFcMessage('bot', 'Sorry, I encountered an error. Please try again later.');
+                }
+            } catch (err) {
+                const typingElem = document.getElementById(typingId);
+                if (typingElem) typingElem.remove();
+                addFcMessage('bot', 'Network error. Please check your connection.');
+            } finally {
+                fcInput.disabled = false;
+                fcSendBtn.disabled = false;
+                fcInput.focus();
+            }
+        }
+
+        function formatFcBotMsg(text) {
+            let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = '<p style="margin-bottom:8px;">' + html.replace(/\n\n/g, '</p><p style="margin-bottom:8px;">').replace(/\n/g, '<br>') + '</p>';
+            return html;
+        }
+
+        function addFcMessage(sender, text) {
+            const div = document.createElement('div');
+            div.className = `fc-message fc-${sender}`;
+
+            if (sender === 'bot') {
+                div.innerHTML = `
+                    <div class="fc-avatar">🌿</div>
+                    <div class="fc-bubble fc-bubble-bot">${formatFcBotMsg(text)}</div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div class="fc-bubble fc-bubble-user">${text}</div>
+                    <div class="fc-avatar">👨‍🌾</div>
+                `;
+            }
+
+            fcMessages.appendChild(div);
+            fcMessages.scrollTop = fcMessages.scrollHeight;
+        }
+
+        function showFcTyping() {
+            const id = 'fc-typing-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'fc-message fc-bot';
+            div.innerHTML = `
+                <div class="fc-avatar">🌿</div>
+                <div class="fc-bubble fc-bubble-bot">
+                    <div class="typing-indicator" style="padding: 0;">
+                        <div class="typing-dot" style="background: white;"></div>
+                        <div class="typing-dot" style="background: white;"></div>
+                        <div class="typing-dot" style="background: white;"></div>
+                    </div>
+                </div>
+            `;
+            fcMessages.appendChild(div);
+            fcMessages.scrollTop = fcMessages.scrollHeight;
+            return id;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze Plant | PlantCare AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="modern-gradient-bg">
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🍃</span>
+                PlantCare AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/#how-it-works">How It Works</a></li>
+                <li><a href="/upload" style="color: white;">Upload</a></li>
+            </ul>
+            <a href="/upload" class="btn btn-primary">Try For Free</a>
+        </div>
+    </nav>
+
+    <div class="page-header container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>&gt;</span> Analyze
+        </div>
+        <h1 class="hero-title" style="font-size: 48px;">Analyze Your Plant</h1>
+        <p class="hero-subtitle" style="margin: 0 auto;">
+            Upload a leaf photo for instant AI disease detection
+        </p>
+    </div>
+
+    <!-- MAIN UPLOAD SECTION -->
+    <section class="container upload-layout" id="upload-layout">
+
+        <!-- Upload Center Area -->
+        <div class="upload-card-wrapper glass-panel glow-effect" id="upload-card">
+
+            <!-- Default Drop Zone -->
+            <div class="drag-zone drag-zone-modern" id="drop-zone">
+                <div class="upload-icon">☁️</div>
+                <h3 class="upload-title">Drag & Drop your leaf image here</h3>
+
+                <div class="upload-divider">or</div>
+
+                <input type="file" id="file-input" accept=".jpg,.jpeg,.png" style="display: none;">
+                <button class="btn btn-ghost" id="browse-btn" onclick="document.getElementById('file-input').click()">
+                    Browse Files
+                </button>
+
+                <div class="req-text">
+                    JPG, PNG &bull; Max 16MB &bull; Min 224x224px
+                </div>
+            </div>
+
+            <!-- Preview State (Initially Hidden) -->
+            <div class="preview-container" id="preview-state">
+                <div class="preview-img-wrapper">
+                    <img id="image-preview" src="" alt="Selected Leaf">
+                </div>
+
+                <div class="file-info-badge">
+                    <span style="color: var(--color-healthy);">✅</span>
+                    <span id="file-name" style="font-weight: 500;">image.jpg</span>
+                    <span id="file-size" class="size">2.4 MB</span>
+                </div>
+
+                <div class="preview-actions">
+                    <button class="btn btn-primary" id="analyze-btn">
+                        Analyze Disease &rarr;
+                    </button>
+                    <button class="btn btn-ghost" id="change-btn" onclick="resetUpload()">
+                        Choose Different Image
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading State (Initially Hidden) -->
+            <div class="loading-container" id="loading-state">
+                <div class="leaf-spinner">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 C70 10 90 30 90 50 C90 70 70 90 50 90 C30 90 10 70 10 50 C10 30 30 10 50 10 Z"
+                            stroke-width="4" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="50" />
+                        <circle cx="50" cy="50" r="15" fill="var(--color-primary)" opacity="0.2" />
+                    </svg>
+                </div>
+                <h3 class="upload-title">Analyzing your plant...</h3>
+                <div class="loading-steps">
+                    <div class="loading-step" id="step1">
+                        <span>✓</span> Image uploaded
+                    </div>
+                    <div class="loading-step" id="step2">
+                        <span>✓</span> Preprocessing...
+                    </div>
+                    <div class="loading-step" id="step3">
+                        <span class="spin-icon">⟳</span> Running AI model...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error message container -->
+            <div id="error-msg" style="color: var(--color-danger); margin-top: 16px; font-weight: 500; display: none;">
+            </div>
+        </div>
+
+        <!-- Right Sidebar (Desktop only) -->
+        <aside class="sidebar">
+            <div class="side-card glass-panel glow-effect" id="weather-panel">
+                <h3 class="side-title">Current Weather</h3>
+                <div id="weather-loading" style="color: var(--color-text-muted); font-size: 14px;">
+                    <span class="spin-icon">⟳</span> Detecting location...
+                </div>
+                <div id="weather-error" style="display: none; color: var(--color-danger); font-size: 14px;">
+                    Location access denied or unavailable.
+                </div>
+                <div id="weather-content" style="display: none;">
+                    <div
+                        style="font-weight: 600; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                        <span>📍</span> <span id="w-location">Detecting...</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Temperature</div>
+                            <div style="font-size: 18px; font-weight: 600; color: white;" id="w-temp">--</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Humidity</div>
+                            <div style="font-size: 18px; font-weight: 600; color: white;" id="w-humidity">--</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Rainfall</div>
+                            <div style="font-size: 18px; font-weight: 600; color: white;" id="w-rain">--</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--color-text-secondary);">Wind Speed</div>
+                            <div style="font-size: 18px; font-weight: 600; color: white;" id="w-wind">--</div>
+                        </div>
+                    </div>
+                    <div
+                        style="margin-top: 12px; font-size: 13px; color: var(--color-primary); background: rgba(22, 163, 74, 0.1); padding: 8px; border-radius: 8px;">
+                        <span id="w-desc">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-card glass-panel glow-effect">
+                <h3 class="side-title">Recent Detections</h3>
+                <div class="recent-list">
+                    <div class="recent-item">
+                        <div class="recent-name">🍅 Tomato Late Blight</div>
+                        <div class="recent-score">94%</div>
+                    </div>
+                    <div class="recent-item">
+                        <div class="recent-name">🍎 Apple Scab</div>
+                        <div class="recent-score" style="color: var(--color-warning);">88%</div>
+                    </div>
+                    <div class="recent-item">
+                        <div class="recent-name">🌽 Corn Rust</div>
+                        <div class="recent-score">91%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-card glass-panel glow-effect">
+                <h3 class="side-title">Best Results Tips</h3>
+                <div class="tips-list">
+                    <div class="tip-item">
+                        <span>💡</span>
+                        Focus closely on the symptoms visible on the leaf.
+                    </div>
+                    <div class="tip-item">
+                        <span>💡</span>
+                        Ensure good natural lighting to avoid harsh shadows.
+                    </div>
+                    <div class="tip-item">
+                        <span>💡</span>
+                        Keep the camera steady to avoid motion blur.
+                    </div>
+                    <div class="tip-item">
+                        <span>💡</span>
+                        Make sure the background is mostly clear.
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo footer-logo">
+                        <span class="logo-icon">🍃</span>
+                        PlantCare AI
+                    </div>
+                    <p class="footer-tagline">Empowering farmers and gardeners with deep learning technology to protect
+                        the world's crops.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <div class="footer-links">
+                        <a href="/">Home</a>
+                        <a href="/about">About</a>
+                        <a href="/upload">Upload</a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Technology Stack</h4>
+                    <div class="tech-badges">
+                        <span class="tech-badge">TensorFlow</span>
+                        <span class="tech-badge">Flask</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> PlantCare AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        @keyframes spinnerIconSpin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin-icon {
+            display: inline-block;
+            animation: spinnerIconSpin 1s infinite linear;
+        }
+    </style>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewState = document.getElementById('preview-state');
+        const loadingState = document.getElementById('loading-state');
+        const imagePreview = document.getElementById('image-preview');
+        const errorMsg = document.getElementById('error-msg');
+        const analyzeBtn = document.getElementById('analyze-btn');
+
+        // Drag events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('drag-over');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('drag-over');
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', function () {
+            handleFiles(this.files);
+        });
+
+        function handleFiles(files) {
+            errorMsg.style.display = 'none';
+            if (files.length === 0) return;
+
+            const file = files[0];
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+            if (!validTypes.includes(file.type)) {
+                showError('Invalid file type. Please upload a JPG or PNG.');
+                return;
+            }
+
+            if (file.size > 16 * 1024 * 1024) {
+                showError('File is too large. Maximum size is 16MB.');
+                return;
+            }
+
+            // Sync file with input (for FormData later)
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                document.getElementById('file-name').textContent = file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name;
+                document.getElementById('file-size').textContent = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+
+                dropZone.style.display = 'none';
+                previewState.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetUpload() {
+            fileInput.value = '';
+            previewState.style.display = 'none';
+            dropZone.style.display = 'block';
+            errorMsg.style.display = 'none';
+        }
+
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.style.display = 'block';
+        }
+
+        let userLat = null;
+        let userLon = null;
+
+        // Geolocation on load
+        window.addEventListener('DOMContentLoaded', () => {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        userLat = position.coords.latitude;
+                        userLon = position.coords.longitude;
+                        fetchWeather(userLat, userLon);
+                    },
+                    error => {
+                        console.error('Error getting location', error);
+                        document.getElementById('weather-loading').style.display = 'none';
+                        document.getElementById('weather-error').style.display = 'block';
+                    }
+                );
+            } else {
+                document.getElementById('weather-loading').style.display = 'none';
+                document.getElementById('weather-error').textContent = 'Geolocation is not supported.';
+                document.getElementById('weather-error').style.display = 'block';
+            }
+        });
+
+        async function fetchWeather(lat, lon) {
+            try {
+                const response = await fetch('/api/weather', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ lat, lon })
+                });
+                const data = await response.json();
+
+                document.getElementById('weather-loading').style.display = 'none';
+
+                if (data.success) {
+                    const w = data.data;
+                    document.getElementById('w-location').textContent = w.location;
+                    document.getElementById('w-temp').textContent = w.temperature;
+                    document.getElementById('w-humidity').textContent = w.humidity;
+                    document.getElementById('w-rain').textContent = w.rainfall;
+                    document.getElementById('w-wind').textContent = w.wind_speed;
+                    document.getElementById('w-desc').textContent = w.description;
+                    document.getElementById('weather-content').style.display = 'block';
+                } else {
+                    document.getElementById('weather-error').textContent = 'Failed to load weather data.';
+                    document.getElementById('weather-error').style.display = 'block';
+                }
+            } catch (e) {
+                document.getElementById('weather-loading').style.display = 'none';
+                document.getElementById('weather-error').textContent = 'Network error loading weather.';
+                document.getElementById('weather-error').style.display = 'block';
+            }
+        }
+
+        // Handle Form Submit
+        analyzeBtn.addEventListener('click', () => {
+            const formData = new FormData();
+            if (!fileInput.files[0]) {
+                showError('Please select a file first.');
+                return;
+            }
+            formData.append('file', fileInput.files[0]);
+
+            // Append geolocation if available
+            if (userLat !== null && userLon !== null) {
+                formData.append('lat', userLat);
+                formData.append('lon', userLon);
+            }
+
+            // Hide preview, show loading
+            previewState.style.display = 'none';
+            loadingState.style.display = 'block';
+
+            // Layout adjusted for loading state
+            document.getElementById('upload-layout').classList.add('full');
+
+            // Sequence loading animations (fake progression visual)
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+
+            setTimeout(() => { step1.classList.add('done'); }, 400);
+            setTimeout(() => { step2.classList.add('active'); }, 800);
+            setTimeout(() => { step2.classList.replace('active', 'done'); step3.classList.add('active'); }, 2000);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/result';
+                    } else {
+                        resetLoadingState();
+                        showError(data.error || 'Prediction failed.');
+                    }
+                })
+                .catch(err => {
+                    resetLoadingState();
+                    showError('Server connection error.');
+                    console.error(err);
+                });
+        });
+
+        function resetLoadingState() {
+            loadingState.style.display = 'none';
+            previewState.style.display = 'block';
+            document.getElementById('upload-layout').classList.remove('full');
+
+            document.getElementById('step1').className = 'loading-step active';
+            document.getElementById('step2').className = 'loading-step';
+            document.getElementById('step3').className = 'loading-step';
+        }
+
+    </script>
+</body>
+
+</html>

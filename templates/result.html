@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Result | PlantCare AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="modern-gradient-bg">
+
+    <!-- NAVBAR -->
+    <nav class="navbar nav-scrolled" id="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🍃</span>
+                PlantCare AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/#how-it-works">How It Works</a></li>
+                <li><a href="/upload">Upload</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header container" style="padding-bottom: 40px;">
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>&gt;</span> <a href="/upload">Analyze</a> <span>&gt;</span> Results
+        </div>
+        <h1 class="hero-title" style="font-size: 40px; margin-bottom: 8px;">Analysis Complete
+            <span class="check-anim" style="color: var(--color-healthy); display: inline-block;">✓</span>
+        </h1>
+    </div>
+
+    <!-- RESULT SECTION -->
+    <section class="container result-layout">
+
+        <!-- Left Panel: Image -->
+        <div class="image-panel">
+            <div class="result-img-wrapper result-img-modern glow-effect">
+                <img src="{{ image_path }}" alt="Analyzed Leaf">
+                <div class="img-meta" style="margin-top: 16px;">
+                    <span style="font-family: monospace;">IMG_{{ now|default('YYYYMMDD') }}.jpg</span>
+                    <span>Processed in 1.4s</span>
+                </div>
+            </div>
+
+            <a href="/upload" class="btn btn-ghost" style="width: 100%;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 2v6h-6"></path>
+                    <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+                    <path d="M3 22v-6h6"></path>
+                    <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+                </svg>
+                Analyze Another Image
+            </a>
+
+            <!-- CHATBOT SECTION -->
+            <div class="chatbot-wrapper" style="margin-top: 24px; max-width: 100%;">
+                <div class="chatbot-header" style="flex-direction: column; align-items: flex-start;">
+                    <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                        <div class="chatbot-header-left">
+                            <div class="bot-avatar" style="width: 32px; height: 32px; font-size: 16px;">🌿</div>
+                            <div class="bot-info">
+                                <h3 class="bot-title" style="font-size: 15px;">PlantCare Assistant</h3>
+                            </div>
+                        </div>
+                        <div class="chatbot-header-right">
+                            <div class="status-dot"></div>
+                            <span class="status-text" style="font-size: 12px;">Online</span>
+                        </div>
+                    </div>
+                    <div class="bot-subtitle" style="margin-top: 8px; font-size: 12px;">
+                        Answering questions about {{ prediction.disease_name }} on your {{ prediction.plant_name }}
+                    </div>
+                </div>
+
+                <!-- 3D Mascot Interactive Section -->
+                <div class="mascot-container" id="mascot-container">
+                    <div class="mascot-inner">
+                        <img src="{{ url_for('static', filename='mascot.png') }}" alt="Plant Mascot"
+                            class="bot-mascot3d" id="mascot-img">
+                    </div>
+                </div>
+
+                <div class="chat-window" id="chatWindow" style="height: 350px;">
+                    <div class="message bot-message" id="lang-selection">
+                        <div class="message-avatar" style="width: 32px; height: 32px; font-size: 16px;">🌿</div>
+                        <div class="message-bubble bot-bubble" style="font-size: 13px;">
+                            <div style="margin-bottom: 8px;">Please select your preferred language<br>कृपया अपनी भाषा
+                                चुनें<br>దయచేసి మీ భాషను ఎంచుకోండి</div>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn btn-primary"
+                                    style="padding: 4px 12px; font-size: 12px; min-width: auto; height: auto;"
+                                    onclick="setChatLanguage('English')">English</button>
+                                <button class="btn btn-primary"
+                                    style="padding: 4px 12px; font-size: 12px; min-width: auto; height: auto;"
+                                    onclick="setChatLanguage('Hindi')">हिंदी</button>
+                                <button class="btn btn-primary"
+                                    style="padding: 4px 12px; font-size: 12px; min-width: auto; height: auto;"
+                                    onclick="setChatLanguage('Telugu')">తెలుగు</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Messages go here -->
+                </div>
+
+                <div class="quick-questions" id="quick-questions" style="padding: 10px 15px; display: none;">
+                    <div class="chips-container" style="gap: 5px;">
+                        <button class="quick-chip" id="qc-1" style="font-size: 11px; padding: 4px 8px;"
+                            onclick="sendQuickMessage('Best treatment?')">Best treatment?</button>
+                        <button class="quick-chip" id="qc-2" style="font-size: 11px; padding: 4px 8px;"
+                            onclick="sendQuickMessage('Safe to eat?')">Safe to eat?</button>
+                        <button class="quick-chip" id="qc-3" style="font-size: 11px; padding: 4px 8px;"
+                            onclick="sendQuickMessage('How fast does it spread?')">How fast does it spread?</button>
+                    </div>
+                </div>
+
+                <div class="chatbot-input-area" style="padding: 12px 15px;">
+                    <div class="input-wrapper" style="padding: 4px 4px 4px 12px;">
+                        <input type="text" id="chatInput" style="font-size: 13px;" placeholder="Ask me anything...">
+                        <button id="sendBtn" style="width: 36px; height: 36px; font-size: 14px;"
+                            onclick="sendMessage()">➤</button>
+                    </div>
+                    <div class="input-footer" style="padding: 0 4px;">
+                        <div class="disclaimer" style="font-size: 10px;">AI responses are for guidance only.</div>
+                        <div class="char-counter" id="charCounter" style="font-size: 10px;">0/500</div>
+                    </div>
+                </div>
+
+                <!-- Hidden context data for JS -->
+                <div id="diseaseData" style="display: none;" data-plant="{{ prediction.plant_name }}"
+                    data-disease="{{ prediction.disease_name }}" data-confidence="{{ prediction.confidence }}"
+                    data-healthy="{{ prediction.is_healthy }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Results Data -->
+        <div class="result-data-panel">
+
+            <div class="result-header">
+                {% if prediction.is_healthy %}
+                <div class="main-badge modern-badge success">
+                    ✓ HEALTHY PLANT
+                </div>
+                {% else %}
+                <div class="main-badge modern-badge danger">
+                    ⚠ DISEASE DETECTED
+                </div>
+                {% endif %}
+
+                <div class="plant-type">
+                    <span>🌱</span> {{ prediction.plant_name|default('Identified Crop') }}
+                </div>
+
+                <h2 class="disease-name {% if prediction.is_healthy %}success{% else %}danger{% endif %}">
+                    {{ prediction.disease_name|default('Diagnosis Name') }}
+                </h2>
+            </div>
+
+            <!-- Main Confidence Bar -->
+            <div class="main-confidence glass-panel glow-effect">
+                <div class="conf-header">
+                    <span class="conf-label">
+                        {% if prediction.confidence|float > 90 %}
+                        <span style="color: var(--color-healthy);">● High Confidence</span>
+                        {% elif prediction.confidence|float > 75 %}
+                        <span style="color: var(--color-warning);">● Medium Confidence</span>
+                        {% else %}
+                        <span style="color: var(--color-danger);">● Low Confidence</span>
+                        {% endif %}
+                    </span>
+                    <span class="conf-value" id="main-conf-val">0%</span>
+                </div>
+                <div class="conf-bar-bg">
+                    <div class="conf-bar-fill {% if prediction.confidence|float > 90 %}high{% elif prediction.confidence|float > 75 %}med{% else %}low{% endif %}"
+                        id="main-conf-bar" data-width="{{ prediction.confidence }}"></div>
+                </div>
+            </div>
+
+            <!-- Disease Info Card -->
+            <div class="info-section">
+                <h3 class="info-section-title">Analysis Profile</h3>
+                <div class="info-card glass-panel glow-effect">
+                    <p class="info-text">
+                        {% if prediction.is_healthy %}
+                        Great news! The uploaded leaf shows no visible signs of pathogenic diseases. The cellular
+                        structure and pigmentation appear normal for this crop type.
+                        {% else %}
+                        Visual markers strongly indicate the presence of {{ prediction.disease_name }}. Microscopic
+                        necrotic lesions and chlorosis patterns are consistent with this diagnosis. Immediate action is
+                        recommended to prevent spreading.
+                        {% endif %}
+                    </p>
+
+                    {% if not prediction.is_healthy %}
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <span class="label">Priority</span>
+                            <span class="val high-sev">Urgent</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Spread Risk</span>
+                            <span class="val high-sev">High Risk</span>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <span class="label">Plant Health</span>
+                            <span class="val low-sev">Optimal</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Weather Analysis Section -->
+            {% if weather_data %}
+            <div class="info-section">
+                <h3 class="info-section-title">Environmental Context</h3>
+                <div class="info-card glass-panel glow-effect">
+
+                    <div style="display: flex; gap: 16px; margin-bottom: 16px; align-items: center;">
+                        <span style="font-size: 24px;">📍</span>
+                        <div>
+                            <div style="font-size: 14px; color: var(--color-text-secondary);">Detected Location</div>
+                            <div style="font-weight: 600; font-size: 16px; color: white;">{{ weather_data.location }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; background: rgba(255,255,255,0.02); padding: 16px; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.05);">
+                        <div>
+                            <div style="font-size: 11px; color: var(--color-text-muted); text-transform: uppercase;">
+                                Temperature</div>
+                            <div style="font-size: 16px; font-weight: 600; color: white;">{{ weather_data.temperature }}
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--color-text-muted); text-transform: uppercase;">
+                                Humidity</div>
+                            <div style="font-size: 16px; font-weight: 600; color: white;">{{ weather_data.humidity }}
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--color-text-muted); text-transform: uppercase;">
+                                Rainfall</div>
+                            <div style="font-size: 16px; font-weight: 600; color: white;">{{ weather_data.rainfall }}
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--color-text-muted); text-transform: uppercase;">
+                                Wind Speed</div>
+                            <div style="font-size: 16px; font-weight: 600; color: white;">{{ weather_data.wind_speed }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if weather_analysis %}
+                    <div>
+                        <div
+                            style="font-size: 12px; color: var(--color-primary); font-weight: 600; margin-bottom: 4px; text-transform: uppercase;">
+                            Weather Influence Analysis</div>
+                        <p style="font-size: 14px; margin: 0; color: var(--color-text-secondary); line-height: 1.5;">
+                            {{ weather_analysis }}
+                        </p>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Treatment Plan -->
+            {% if not prediction.is_healthy %}
+            <div class="info-section">
+                <h3 class="info-section-title">Treatment Protocol</h3>
+                <div class="treatment-list">
+                    <!-- Standardized Action Plan based on prompt instructions -->
+                    <div class="treatment-step glass-panel">
+                        <div class="step-header">
+                            <div class="step-num">1</div>
+                            <div class="step-title">Isolate & Prune</div>
+                            <div class="step-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            Immediately remove and destroy affected plant parts. Do not compost infected leaves to
+                            prevent the pathogen from overwintering.
+                        </div>
+                    </div>
+
+                    <div class="treatment-step glass-panel">
+                        <div class="step-header">
+                            <div class="step-num">2</div>
+                            <div class="step-title">Cultural Controls</div>
+                            <div class="step-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            Ensure proper plant spacing to improve air circulation. Avoid overhead watering; water at
+                            the base to keep foliage dry.
+                        </div>
+                    </div>
+
+                    <div class="treatment-step glass-panel">
+                        <div class="step-header">
+                            <div class="step-num">3</div>
+                            <div class="step-title">Chemical Treatment</div>
+                            <div class="step-icon">▼</div>
+                        </div>
+                        <div class="step-content">
+                            Apply an appropriate organic or synthetic fungicide specific to this pathogen. Follow the
+                            manufacturer's directions strictly for application rates.
+                            <br><br>
+                            <em>Additional AI insight: {{ prediction.recommendations|default('Consult local agricultural
+                                extension for specific fungicide labels.') }}</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Top 3 Predictions -->
+            {% if prediction.top3 %}
+            <div class="info-section">
+                <h3 class="info-section-title">Alternative Diagnoses Considered</h3>
+                <div class="alt-pred-list">
+                    {% for item in prediction.top3 %}
+                    <div class="alt-pred-row {% if loop.index == 1 %}primary{% endif %}">
+                        <div class="alt-rank">#{{ loop.index }}</div>
+                        <div class="alt-name">{{ item.class }}</div>
+                        <div class="mini-bar-bg">
+                            <div class="mini-bar-fill alt-bar-fill" data-width="{{ item.confidence }}"></div>
+                        </div>
+                        <div class="alt-score">{{ item.confidence|round(1) }}%</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="/upload" class="btn btn-primary">Analyze Another Plant &rarr;</a>
+                <button class="btn btn-ghost" onclick="alert('PDF Report starting to download...')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Report
+                </button>
+                <a href="/" class="btn btn-ghost">Back to Home</a>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo footer-logo">
+                        <span class="logo-icon">🍃</span>
+                        PlantCare AI
+                    </div>
+                    <p class="footer-tagline">Empowering farmers and gardeners with deep learning technology to protect
+                        the world's crops.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <div class="footer-links">
+                        <a href="/">Home</a>
+                        <a href="/about">About</a>
+                        <a href="/upload">Upload</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> PlantCare AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Result Page Scripts -->
+    <style>
+        /* Interactive Mascot Styles */
+        .mascot-container {
+            width: 100%;
+            height: 180px;
+            background-color: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 800px;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            border-radius: 0;
+            cursor: crosshair;
+        }
+
+        .mascot-inner {
+            animation: mascotFloat 4s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        .bot-mascot3d {
+            height: 150px;
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.1s ease-out;
+            filter: drop-shadow(0px 15px 15px rgba(74, 222, 128, 0.25));
+            pointer-events: none;
+            /* Let the container handle mouse events */
+        }
+
+        @keyframes mascotFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .check-anim {
+            animation: popIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.4);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Treatment Steps Accordion
+        document.querySelectorAll('.step-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const step = header.parentElement;
+                const content = step.querySelector('.step-content');
+
+                step.classList.toggle('active');
+
+                if (step.classList.contains('active')) {
+                    content.style.display = 'block';
+                } else {
+                    content.style.display = 'none';
+                }
+            });
+        });
+
+        // Animate Confidence Bars and Numbers on Load
+        window.addEventListener('load', () => {
+            // Main Bar
+            const mainBarFill = document.getElementById('main-conf-bar');
+            const mainValText = document.getElementById('main-conf-val');
+
+            if (mainBarFill) {
+                const targetVal = parseFloat(mainBarFill.getAttribute('data-width'));
+
+                setTimeout(() => {
+                    mainBarFill.style.width = targetVal + '%';
+
+                    // Count up animation
+                    let current = 0;
+                    const increment = targetVal / 40; // 40 steps
+                    const duration = 1500;
+                    const intervalTime = duration / 40;
+
+                    const counter = setInterval(() => {
+                        current += increment;
+                        if (current >= targetVal) {
+                            current = targetVal;
+                            clearInterval(counter);
+                        }
+                        mainValText.textContent = current.toFixed(1) + '%';
+                    }, intervalTime);
+
+                }, 300);
+            }
+
+            // Mini Alternate Bars
+            setTimeout(() => {
+                document.querySelectorAll('.alt-bar-fill').forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width + '%';
+                });
+            }, 600);
+
+            // Mascot 3D Interaction
+            const mascotContainer = document.getElementById('mascot-container');
+            const mascotImg = document.getElementById('mascot-img');
+
+            if (mascotContainer && mascotImg) {
+                mascotContainer.addEventListener('mousemove', (e) => {
+                    const rect = mascotContainer.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+
+                    // Tilt calculations (Max limits 25deg X, 35deg Y)
+                    const rotateY = (x / (rect.width / 2)) * 35;
+                    const rotateX = -(y / (rect.height / 2)) * 25;
+
+                    mascotImg.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                });
+
+                mascotContainer.addEventListener('mouseleave', () => {
+                    mascotImg.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                });
+            }
+
+        });
+
+        // Chatbot JS
+        const diseaseData = document.getElementById('diseaseData');
+        const diseaseContext = {
+            plant_name: diseaseData.getAttribute('data-plant'),
+            disease_name: diseaseData.getAttribute('data-disease'),
+            confidence: parseFloat(diseaseData.getAttribute('data-confidence')),
+            is_healthy: diseaseData.getAttribute('data-healthy') === 'True'
+        };
+
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatWindow = document.getElementById('chatWindow');
+        const charCounter = document.getElementById('charCounter');
+
+        // Language state
+        let chatLanguage = 'English';
+        chatInput.disabled = true;
+        sendBtn.disabled = true;
+
+        function setChatLanguage(lang) {
+            chatLanguage = lang;
+            document.getElementById('lang-selection').style.display = 'none';
+            document.getElementById('quick-questions').style.display = 'block';
+            chatInput.disabled = false;
+            sendBtn.disabled = false;
+
+            // Set input placeholder and quick chips based on language
+            if (lang === 'Hindi') {
+                chatInput.placeholder = "मुझसे कुछ भी पूछें...";
+                document.getElementById('qc-1').textContent = "सर्वोत्तम उपचार?";
+                document.getElementById('qc-1').setAttribute("onclick", "sendQuickMessage('सर्वोत्तम उपचार?')");
+                document.getElementById('qc-2').textContent = "क्या यह खाने के लिए सुरक्षित है?";
+                document.getElementById('qc-2').setAttribute("onclick", "sendQuickMessage('क्या यह खाने के लिए सुरक्षित है?')");
+                document.getElementById('qc-3').textContent = "यह कितनी तेजी से फैलता है?";
+                document.getElementById('qc-3').setAttribute("onclick", "sendQuickMessage('यह कितनी तेजी से फैलता है?')");
+            } else if (lang === 'Telugu') {
+                chatInput.placeholder = "నన్ను ఏదైనా అడగండి...";
+                document.getElementById('qc-1').textContent = "ఉత్తమ చికిత్స?";
+                document.getElementById('qc-1').setAttribute("onclick", "sendQuickMessage('ఉత్తమ చికిత్స?')");
+                document.getElementById('qc-2').textContent = "తినడానికి సురక్షితమేనా?";
+                document.getElementById('qc-2').setAttribute("onclick", "sendQuickMessage('తినడానికి సురక్షితమేనా?')");
+                document.getElementById('qc-3').textContent = "ఇది ఎంత వేగంగా వ్యాపిస్తుంది?";
+                document.getElementById('qc-3').setAttribute("onclick", "sendQuickMessage('ఇది ఎంత వేగంగా వ్యాపిస్తుంది?')");
+            } else {
+                chatInput.placeholder = "Ask me anything...";
+                document.getElementById('qc-1').textContent = "Best treatment?";
+                document.getElementById('qc-1').setAttribute("onclick", "sendQuickMessage('Best treatment?')");
+                document.getElementById('qc-2').textContent = "Safe to eat?";
+                document.getElementById('qc-2').setAttribute("onclick", "sendQuickMessage('Safe to eat?')");
+                document.getElementById('qc-3').textContent = "How fast does it spread?";
+                document.getElementById('qc-3').setAttribute("onclick", "sendQuickMessage('How fast does it spread?')");
+            }
+
+            // Render initial greeting
+            let welcomeMsg = "";
+            if (lang === 'Hindi') {
+                welcomeMsg = `नमस्ते! मैंने आपके ${diseaseContext.plant_name} का विश्लेषण किया है और ${diseaseContext.confidence}% आत्मविश्वास के साथ ${diseaseContext.disease_name} का पता लगाया है। मैं आपका समर्पित पौधा रोग विशेषज्ञ हूं। मुझसे इस स्थिति के बारे में कुछ भी पूछें!`;
+            } else if (lang === 'Telugu') {
+                welcomeMsg = `నమస్కారం! నేను మీ ${diseaseContext.plant_name} ను విశ్లేషించాను మరియు ${diseaseContext.confidence}% విశ్వాసంతో ${diseaseContext.disease_name} ను గుర్తించాను. నేను మీ ప్రత్యేక మొక్కల పాథాలజీ నిపుణుడిని. ఈ స్థితి గురించి నన్ను ఏదైనా అడగండి!`;
+            } else {
+                welcomeMsg = `Hello! I've analyzed your ${diseaseContext.plant_name} and detected ${diseaseContext.disease_name} with ${diseaseContext.confidence}% confidence. I'm your dedicated plant pathology expert. Ask me anything about this condition!`;
+            }
+
+            addMessageToUI('bot', welcomeMsg);
+        }
+
+        // Character counter
+        chatInput.addEventListener('input', () => {
+            const len = chatInput.value.length;
+            charCounter.textContent = `${len}/500`;
+            if (len >= 450) {
+                charCounter.style.color = 'var(--color-danger)';
+            } else {
+                charCounter.style.color = 'var(--color-text-muted)';
+            }
+        });
+
+        chatInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendQuickMessage(text) {
+            chatInput.value = text;
+            sendMessage();
+        }
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message to UI
+            addMessageToUI('user', message);
+
+            // Clear input and disable
+            chatInput.value = '';
+            charCounter.textContent = '0/500';
+            chatInput.disabled = true;
+            sendBtn.disabled = true;
+
+            // Show typing indicator
+            const typingId = showTypingIndicator();
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        context: diseaseContext,
+                        language: chatLanguage
+                    })
+                });
+
+                const data = await response.json();
+
+                // Remove typing indicator
+                const typingElem = document.getElementById(typingId);
+                if (typingElem) typingElem.remove();
+
+                if (data.success) {
+                    addMessageToUI('bot', data.response);
+                } else {
+                    addMessageToUI('error', 'Sorry, I encountered an error: ' + data.error);
+                }
+            } catch (err) {
+                const typingElem = document.getElementById(typingId);
+                if (typingElem) typingElem.remove();
+                addMessageToUI('error', 'Network error. Please try again.');
+            } finally {
+                chatInput.disabled = false;
+                sendBtn.disabled = false;
+                chatInput.focus();
+            }
+        }
+
+        function formatBotMessage(text) {
+            // Parse **bold** to <strong>
+            let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Parse \n\n to paragraph breaks
+            html = '<p>' + html.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>') + '</p>';
+            return html;
+        }
+
+        function addMessageToUI(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}-message`;
+
+            if (sender === 'bot') {
+                msgDiv.innerHTML = `
+                    <div class="message-avatar">🌿</div>
+                    <div class="message-bubble bot-bubble">${formatBotMessage(text)}</div>
+                `;
+            } else if (sender === 'user') {
+                msgDiv.innerHTML = `
+                    <div class="message-bubble user-bubble">${text}</div>
+                    <div class="message-avatar">👨‍🌾</div>
+                `;
+            } else if (sender === 'error') {
+                msgDiv.innerHTML = `
+                    <div class="message-avatar">⚠️</div>
+                    <div class="message-bubble bot-bubble" style="color: var(--color-danger); border-color: var(--color-danger);">${text}</div>
+                `;
+            }
+
+            chatWindow.appendChild(msgDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const msgDiv = document.createElement('div');
+            msgDiv.id = id;
+            msgDiv.className = 'message bot-message';
+            msgDiv.innerHTML = `
+                <div class="message-avatar">🌿</div>
+                <div class="message-bubble bot-bubble typing-bubble">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            chatWindow.appendChild(msgDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+            return id;
+        }
+    </script>
+</body>
+
+</html>

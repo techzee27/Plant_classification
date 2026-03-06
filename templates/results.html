@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results - PlantCare AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🌿</span>
+                <span class="logo-text">PlantCare AI</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/upload" class="btn-nav">New Analysis</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Results Section -->
+    <section class="results-section">
+        <div class="container">
+            <h1 class="page-title">Analysis Complete</h1>
+            <p class="page-subtitle">Here is what we found</p>
+
+            <div class="results-grid">
+
+                <!-- Left: Uploaded Image -->
+                <div class="result-image-card">
+                    <h3>Uploaded Image</h3>
+                    <img src="{{ url_for('static', filename=image_path) }}" alt="Uploaded plant leaf"
+                        class="result-image">
+                </div>
+
+                <!-- Right: Prediction Results -->
+                <div class="result-details-card">
+
+                    <!-- Healthy or Disease Badge -->
+                    {% if prediction.is_healthy %}
+                    <div class="status-badge healthy">
+                        <span>✓ HEALTHY PLANT</span>
+                    </div>
+                    {% else %}
+                    <div class="status-badge diseased">
+                        <span>⚠ DISEASE DETECTED</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Main Result -->
+                    <div class="result-main">
+                        <div class="result-item">
+                            <label>PLANT TYPE</label>
+                            <h2>{{ prediction.plant_name }}</h2>
+                        </div>
+                        <div class="result-item">
+                            <label>CONDITION</label>
+                            <h2 class="{% if prediction.is_healthy %}healthy-text{% else %}disease-text{% endif %}">
+                                {{ prediction.disease_name }}
+                            </h2>
+                        </div>
+                        <div class="result-item">
+                            <label>CONFIDENCE</label>
+                            <div class="confidence-bar-container">
+                                <div class="confidence-bar" style="width: {{ prediction.confidence }}%">
+                                </div>
+                            </div>
+                            <span class="confidence-value">
+                                {{ prediction.confidence }}%
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="recommendations">
+                        {% if prediction.is_healthy %}
+                        <h3>Keep Your Plant Healthy</h3>
+                        {% else %}
+                        <h3>Recommended Actions</h3>
+                        {% endif %}
+                        <ul>
+                            {% for rec in prediction.recommendations %}
+                            <li>{{ rec }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Top 3 Predictions -->
+                    <div class="top3-section">
+                        <h3>Top 3 Predictions</h3>
+                        {% for item in prediction.top3 %}
+                        <div class="top3-item">
+                            <span class="top3-class">{{ item.class }}</span>
+                            <div class="top3-bar-container">
+                                <div class="top3-bar" style="width: {{ item.confidence }}%">
+                                </div>
+                            </div>
+                            <span class="top3-conf">{{ item.confidence }}%</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="result-actions">
+                <a href="/upload" class="btn-primary">Analyze Another Image</a>
+                <a href="/" class="btn-secondary">Back to Home</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>PlantCare AI - Powered by MobileNetV2 Transfer Learning</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
