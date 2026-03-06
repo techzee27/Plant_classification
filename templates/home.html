@@ -960,23 +960,42 @@
             return html;
         }
 
-        function addFcMessage(sender, text) {
+        async function addFcMessage(sender, text) {
             const div = document.createElement('div');
             div.className = `fc-message fc-${sender}`;
 
             if (sender === 'bot') {
+                const htmlContent = formatFcBotMsg(text);
                 div.innerHTML = `
                     <div class="fc-avatar">🌿</div>
-                    <div class="fc-bubble fc-bubble-bot">${formatFcBotMsg(text)}</div>
+                    <div class="fc-bubble fc-bubble-bot"></div>
                 `;
+                fcMessages.appendChild(div);
+                fcMessages.scrollTop = fcMessages.scrollHeight;
+
+                const bubble = div.querySelector('.fc-bubble-bot');
+                let index = 0;
+                while (index < htmlContent.length) {
+                    if (htmlContent[index] === '<') {
+                        let endIndex = htmlContent.indexOf('>', index);
+                        if (endIndex !== -1) {
+                            index = endIndex;
+                        }
+                    }
+                    bubble.innerHTML = htmlContent.substring(0, index + 1);
+                    fcMessages.scrollTop = fcMessages.scrollHeight;
+                    index++;
+                    await new Promise(r => setTimeout(r, 15));
+                }
+                bubble.innerHTML = htmlContent;
             } else {
                 div.innerHTML = `
                     <div class="fc-bubble fc-bubble-user">${text}</div>
                     <div class="fc-avatar">👨‍🌾</div>
                 `;
+                fcMessages.appendChild(div);
             }
 
-            fcMessages.appendChild(div);
             fcMessages.scrollTop = fcMessages.scrollHeight;
         }
 

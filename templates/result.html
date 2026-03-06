@@ -687,28 +687,48 @@
             return html;
         }
 
-        function addMessageToUI(sender, text) {
+        async function addMessageToUI(sender, text) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `message ${sender}-message`;
 
             if (sender === 'bot') {
+                const htmlContent = formatBotMessage(text);
                 msgDiv.innerHTML = `
                     <div class="message-avatar">🌿</div>
-                    <div class="message-bubble bot-bubble">${formatBotMessage(text)}</div>
+                    <div class="message-bubble bot-bubble"></div>
                 `;
+                chatWindow.appendChild(msgDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+
+                const bubble = msgDiv.querySelector('.bot-bubble');
+                let index = 0;
+                while (index < htmlContent.length) {
+                    if (htmlContent[index] === '<') {
+                        let endIndex = htmlContent.indexOf('>', index);
+                        if (endIndex !== -1) {
+                            index = endIndex;
+                        }
+                    }
+                    bubble.innerHTML = htmlContent.substring(0, index + 1);
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+                    index++;
+                    await new Promise(r => setTimeout(r, 15));
+                }
+                bubble.innerHTML = htmlContent;
             } else if (sender === 'user') {
                 msgDiv.innerHTML = `
                     <div class="message-bubble user-bubble">${text}</div>
                     <div class="message-avatar">👨‍🌾</div>
                 `;
+                chatWindow.appendChild(msgDiv);
             } else if (sender === 'error') {
                 msgDiv.innerHTML = `
                     <div class="message-avatar">⚠️</div>
                     <div class="message-bubble bot-bubble" style="color: var(--color-danger); border-color: var(--color-danger);">${text}</div>
                 `;
+                chatWindow.appendChild(msgDiv);
             }
 
-            chatWindow.appendChild(msgDiv);
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
