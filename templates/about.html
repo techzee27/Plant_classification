@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | PlantCare AI</title>
+    <title>About | Dr. Groot Ai</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -15,7 +15,7 @@
         <div class="container nav-container">
             <a href="/" class="logo">
                 <span class="logo-icon">🍃</span>
-                PlantCare AI
+                Dr. Groot Ai
             </a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
@@ -49,7 +49,7 @@
                 </div>
                 <div>
                     <p style="color: var(--color-text-secondary); margin-bottom: 24px;">
-                        PlantCare AI started as a research project to see if modern convolutional neural networks could
+                        Dr. Groot Ai started as a research project to see if modern convolutional neural networks could
                         outperform traditional pathology tests in speed without sacrificing accuracy.
                     </p>
                     <p style="color: var(--color-text-secondary); margin-bottom: 24px;">
@@ -244,7 +244,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-bottom" style="border-top: none; padding-top: 0;">
-                &copy; <span id="year"></span> PlantCare AI. All rights reserved. Built with TensorFlow & Flask.
+                &copy; <span id="year"></span> Dr. Groot Ai. All rights reserved. Built with TensorFlow & Flask.
             </div>
         </div>
     </footer>
@@ -561,7 +561,7 @@
         <div class="floating-chat-window" id="fcWindow">
             <div class="floating-chat-header">
                 <h3 class="floating-chat-title">
-                    <span style="font-size: 20px;">🌿</span> PlantCare Assistant
+                    <span style="font-size: 20px;">🌿</span> Dr. Groot Assistant
                 </h3>
                 <button class="floating-chat-close" id="fcCloseBtn">×</button>
             </div>
@@ -623,13 +623,13 @@
             let welcomeMsg = "";
             if (lang === 'Hindi') {
                 fcInput.placeholder = "मुझसे कुछ भी पूछें...";
-                welcomeMsg = "नमस्ते! 👋 मैं PlantCare AI सहायक हूँ। मैं आपको यह समझने में मदद कर सकता हूँ कि हमारी रोग पहचान कैसे काम करती है, आपको वेबसाइट सुविधाओं के बारे में मार्गदर्शन कर सकता हूँ, या सामान्य पौधे विकृति विज्ञान के सवालों के जवाब दे सकता हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?";
+                welcomeMsg = "नमस्ते! 👋 मैं Dr. Groot Ai सहायक हूँ। मैं आपको यह समझने में मदद कर सकता हूँ कि हमारी रोग पहचान कैसे काम करती है, आपको वेबसाइट सुविधाओं के बारे में मार्गदर्शन कर सकता हूँ, या सामान्य पौधे विकृति विज्ञान के सवालों के जवाब दे सकता हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?";
             } else if (lang === 'Telugu') {
                 fcInput.placeholder = "నన్ను ఏదైనా అడగండి...";
-                welcomeMsg = "నమస్కారం! 👋 నేను PlantCare AI అసిస్టెంట్‌ని. మా వ్యాధి గుర్తింపు ఎలా పనిచేస్తుందో అర్థం చేసుకోవడంలో నేను మీకు సహాయపడగలను, వెబ్‌సైట్ లక్షణాల ద్వారా మీకు మార్గనిర్దేశం చేయగలను లేదా సాధారణ మొక్కల పాథాలజీ ప్రశ్నలకు సమాధానం ఇవ్వగలను. ఈ రోజు నేను మీకు ఎలా సహాయం చేయగలను?";
+                welcomeMsg = "నమస్కారం! 👋 నేను Dr. Groot Ai అసిస్టెంట్‌ని. మా వ్యాధి గుర్తింపు ఎలా పనిచేస్తుందో అర్థం చేసుకోవడంలో నేను మీకు సహాయపడగలను, వెబ్‌సైట్ లక్షణాల ద్వారా మీకు మార్గనిర్దేశం చేయగలను లేదా సాధారణ మొక్కల పాథాలజీ ప్రశ్నలకు సమాధానం ఇవ్వగలను. ఈ రోజు నేను మీకు ఎలా సహాయం చేయగలను?";
             } else {
                 fcInput.placeholder = "Ask a question...";
-                welcomeMsg = "Hi there! 👋 I'm the PlantCare AI Assistant. I can help you understand how our disease detection works, guide you through the website features, or answer general plant pathology questions. How can I help you today?";
+                welcomeMsg = "Hi there! 👋 I'm the Dr. Groot Ai Assistant. I can help you understand how our disease detection works, guide you through the website features, or answer general plant pathology questions. How can I help you today?";
             }
 
             addFcMessage('bot', welcomeMsg);
