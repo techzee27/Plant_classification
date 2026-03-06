@@ -12,6 +12,9 @@ import os
 import secrets
 import google.generativeai as genai
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ============================================================
 # INITIALIZE FLASK APP
@@ -39,11 +42,16 @@ IMG_SIZE = (224, 224)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Max 16MB upload
 
-GEMINI_API_KEY = "AIzaSyCuzbaOP3JTIAkpChKzrWsEUY8ctO3GtG8"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    print("WARNING: GEMINI_API_KEY is not set in environment or .env file.")
+
 genai.configure(api_key=GEMINI_API_KEY)
 gemini_model = genai.GenerativeModel('gemini-2.5-flash')
 
-OPENWEATHER_API_KEY = "ac126cf002ca55b7e321f762d6e9014e"
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
+if not OPENWEATHER_API_KEY:
+    print("WARNING: OPENWEATHER_API_KEY is not set in environment or .env file.")
 
 # ============================================================
 # LOAD MODEL AND CLASS LABELS

@@ -348,7 +348,7 @@
             <!-- Action Buttons -->
             <div class="action-buttons">
                 <a href="/upload" class="btn btn-primary">Analyze Another Plant &rarr;</a>
-                <button class="btn btn-ghost" onclick="alert('PDF Report starting to download...')">
+                <button class="btn btn-ghost" id="downloadPdfBtn" onclick="downloadPDFReport()">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -731,7 +731,58 @@
             chatWindow.scrollTop = chatWindow.scrollHeight;
             return id;
         }
+
+        // PDF Generation function
+        function downloadPDFReport() {
+            const btn = document.getElementById('downloadPdfBtn');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = 'Generating PDF...';
+            btn.disabled = true;
+
+            const element = document.querySelector('.result-layout');
+
+            // Hide interactive and unnecessary elements during PDF generation
+            const chatbotWrapper = document.querySelector('.chatbot-wrapper');
+            const originalDisplay = chatbotWrapper ? chatbotWrapper.style.display : '';
+            if (chatbotWrapper) chatbotWrapper.style.display = 'none';
+
+            const actionButtons = document.querySelector('.action-buttons');
+            const originalBtnDisplay = actionButtons ? actionButtons.style.display : '';
+            if (actionButtons) actionButtons.style.display = 'none';
+
+            const analyzeAnotherLink = document.querySelector('a[href="/upload"].btn-ghost');
+            const linkDisplay = analyzeAnotherLink ? analyzeAnotherLink.style.display : '';
+            if (analyzeAnotherLink) analyzeAnotherLink.style.display = 'none';
+
+            const opt = {
+                margin: 10,
+                filename: 'PlantCare_Analysis_Report.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore UI
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                if (chatbotWrapper) chatbotWrapper.style.display = originalDisplay;
+                if (actionButtons) actionButtons.style.display = originalBtnDisplay;
+                if (analyzeAnotherLink) analyzeAnotherLink.style.display = linkDisplay;
+            }).catch(err => {
+                console.error(err);
+                alert("Failed to generate PDF");
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                if (chatbotWrapper) chatbotWrapper.style.display = originalDisplay;
+                if (actionButtons) actionButtons.style.display = originalBtnDisplay;
+                if (analyzeAnotherLink) analyzeAnotherLink.style.display = linkDisplay;
+            });
+        }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 
 </html>
