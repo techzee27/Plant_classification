@@ -1377,6 +1377,25 @@ h5 {
     padding: 24px;
 }
 
+.highlight-section {
+    border: 1px solid rgba(22, 163, 74, 0.3) !important;
+    background: linear-gradient(145deg, rgba(22, 163, 74, 0.08), rgba(0, 0, 0, 0)) !important;
+    box-shadow: 0 0 24px rgba(22, 163, 74, 0.15) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.highlight-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary);
+}
+
 .side-title {
     font-size: 15px;
     font-weight: 600;
