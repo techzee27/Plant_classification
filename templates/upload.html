@@ -357,14 +357,25 @@
                         fetchWeather(userLat, userLon);
                     },
                     error => {
-                        console.error('Error getting location', error);
+                        console.error('Geolocation error:', error);
                         document.getElementById('weather-loading').style.display = 'none';
-                        document.getElementById('weather-error').style.display = 'block';
+                        const wError = document.getElementById('weather-error');
+                        if (error.code === error.PERMISSION_DENIED) {
+                            wError.innerHTML = 'Location access denied.<br><br><b>To fix this on Mac:</b><br>1. Click the site settings icon in the URL bar and allow location.<br>2. Go to System Settings > Privacy & Security > Location Services, and enable it for your browser.';
+                        } else {
+                            wError.textContent = 'Location unavailable (took too long or lost connection). Please check your internet/GPS and refresh.';
+                        }
+                        wError.style.display = 'block';
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 30000, // Give user 30 seconds to click "Allow"
+                        maximumAge: 0 // Do not use a cached location
                     }
                 );
             } else {
                 document.getElementById('weather-loading').style.display = 'none';
-                document.getElementById('weather-error').textContent = 'Geolocation is not supported.';
+                document.getElementById('weather-error').textContent = 'Geolocation is not supported by your browser.';
                 document.getElementById('weather-error').style.display = 'block';
             }
         });
