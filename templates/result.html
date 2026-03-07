@@ -80,11 +80,25 @@
                 </div>
 
                 <!-- 3D Mascot Interactive Section -->
-                <div class="mascot-container" id="mascot-container">
-                    <div class="mascot-inner">
-                        <img src="{{ url_for('static', filename='mascot.png') }}" alt="Plant Mascot"
-                            class="bot-mascot3d" id="mascot-img">
-                    </div>
+                <div class="sketchfab-embed-wrapper"
+                    style="width: 100%; height: 260px; display: flex; flex-direction: column; background-color: #050505; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                    <script type="text/javascript"
+                        src="https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js"></script>
+                    <iframe id="api-frame" title="Baby Groot (Textured)" frameborder="0" allowfullscreen
+                        mozallowfullscreen="true" webkitallowfullscreen="true"
+                        allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking
+                        execution-while-out-of-viewport execution-while-not-rendered web-share
+                        src="https://sketchfab.com/models/39d2a85f30c04e09a8679617f0aa86d9/embed?ui_theme=dark&autostart=1"
+                        style="width: 100%; flex-grow: 1;"> </iframe>
+                    <p style="font-size: 11px; font-weight: normal; margin: 4px; color: #4A4A4A; text-align: center;">
+                        <a href="https://sketchfab.com/3d-models/baby-groot-textured-39d2a85f30c04e09a8679617f0aa86d9?utm_medium=embed&utm_campaign=share-popup&utm_content=39d2a85f30c04e09a8679617f0aa86d9"
+                            target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Baby Groot
+                            (Textured) </a> by <a
+                            href="https://sketchfab.com/3dworldz?utm_medium=embed&utm_campaign=share-popup&utm_content=39d2a85f30c04e09a8679617f0aa86d9"
+                            target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> 3D MODELS </a> on
+                        <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=39d2a85f30c04e09a8679617f0aa86d9"
+                            target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+                    </p>
                 </div>
 
                 <div class="chat-window" id="chatWindow" style="height: 350px;">
@@ -543,6 +557,69 @@
         });
 
         // Chatbot JS
+        let sketchfabApi = null;
+        let animIdleUID = null;
+        let animExplainUID = null;
+
+        window.addEventListener('load', () => {
+            var iframe = document.getElementById('api-frame');
+            if (iframe) {
+                var client = new Sketchfab('1.12.1', iframe);
+                client.init('39d2a85f30c04e09a8679617f0aa86d9', {
+                    success: function onSuccess(api) {
+                        sketchfabApi = api;
+                        api.start();
+                        api.addEventListener('viewerready', function () {
+                            api.getAnimations(function (err, animations) {
+                                if (!err && animations && animations.length > 0) {
+                                    // Make sure first one acts as idle
+                                    animIdleUID = animations[0][0];
+
+                                    for (let i = 0; i < animations.length; i++) {
+                                        let anim = animations[i];
+                                        let name = "";
+                                        if (anim.length > 3) {
+                                            name = (anim[3] || "").toLowerCase();
+                                        } else if (anim.name) {
+                                            name = (anim.name || "").toLowerCase();
+                                        }
+
+                                        if (name.includes('explain') || name.includes('talk') || name.includes('speak') || name.includes('idle (3)') || name.includes('action')) {
+                                            animExplainUID = anim[0];
+                                            break;
+                                        }
+                                    }
+                                    // Fallback to second animation if no match
+                                    if (!animExplainUID && animations.length > 1) {
+                                        animExplainUID = animations[1][0];
+                                    } else if (!animExplainUID) {
+                                        animExplainUID = animIdleUID;
+                                    }
+                                }
+                            });
+                        });
+                    },
+                    error: function onError() {
+                        console.log('Sketchfab API error');
+                    },
+                    autostart: 1,
+                    ui_theme: 'dark'
+                });
+            }
+        });
+
+        function playExplainAnimation() {
+            if (sketchfabApi && animExplainUID) {
+                sketchfabApi.setCurrentAnimationByUID(animExplainUID);
+            }
+        }
+
+        function playIdleAnimation() {
+            if (sketchfabApi && animIdleUID) {
+                sketchfabApi.setCurrentAnimationByUID(animIdleUID);
+            }
+        }
+
         const diseaseData = document.getElementById('diseaseData');
         const diseaseContext = {
             plant_name: diseaseData.getAttribute('data-plant'),
@@ -700,6 +777,8 @@
                 chatWindow.appendChild(msgDiv);
                 chatWindow.scrollTop = chatWindow.scrollHeight;
 
+                playExplainAnimation();
+
                 const bubble = msgDiv.querySelector('.bot-bubble');
                 let index = 0;
                 while (index < htmlContent.length) {
@@ -715,6 +794,7 @@
                     await new Promise(r => setTimeout(r, 15));
                 }
                 bubble.innerHTML = htmlContent;
+                playIdleAnimation();
             } else if (sender === 'user') {
                 msgDiv.innerHTML = `
                     <div class="message-bubble user-bubble">${text}</div>
